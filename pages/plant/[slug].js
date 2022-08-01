@@ -65,13 +65,14 @@ export async function getStaticProps(context) {
       <Head>
          <title>{plant.title}</title>
       </Head>
-      <section className='container mx-auto'>
-         <h1 className='text-2xl font-bold'>{plant.title}</h1>
-         <p>{plant.description}</p>
+      <div className='container mx-auto'>
+         <h1 className='text-[2rem] font-bold font-secondary'>{plant.title}</h1>
+         <p className='font-primary font-medium leading-6'>{plant.description}</p>
 
          {plant.gallery.length > 0 && (
-            <>
-               <p>Get inspired:</p>
+            <section role='gallery' className='mt-5'>
+               <h3 className='font-secondary text-[1.5rem] font-bold'>Get inspired:</h3>
+               <p className='font-primary font-medium'>De {plant.title} in actie</p>
                <div className='hover:cursor-grab'>
                   <Swiper
                      modules={[Scrollbar, Autoplay]}
@@ -93,10 +94,10 @@ export async function getStaticProps(context) {
                      ))}
                   </Swiper>
                </div>
-            </>
+            </section>
          )}
 
-      </section>
+      </div>
       </>
    )
  }

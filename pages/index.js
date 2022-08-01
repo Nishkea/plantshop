@@ -40,7 +40,7 @@ export default function Home({plants}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className='container mx-auto'>
+      <main className='container mx-auto py-10'>
         <section className='grid grid-cols-12 gap-4'>
           {plants.map((plant, index) => (
             <PlantCard key={index} slug={plant.slug} thumbnail={plant.thumbnail} title={plant.title} price={plant.price} amount={plant.amount} />
@@ -48,18 +48,6 @@ export default function Home({plants}) {
         </section>
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }
