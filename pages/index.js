@@ -1,8 +1,37 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { GraphQLClient, gql } from 'graphql-request'
+import PlantCard from '../components/PlantCard'
 
-export default function Home() {
+const client = new GraphQLClient('https://directus.shoto.studio/graphql');
+const QUERY = gql`
+  query {
+    plants {
+      slug
+      title
+      price
+      amount
+      thumbnail {
+          id
+          title
+      }
+    }
+  }
+`;
+
+export async function getStaticProps() {
+  const plants = await client.request(QUERY);
+  return {
+    props: {
+      plants: plants.plants,
+    },
+    revalidate: 10,
+  }
+}
+
+export default function Home({plants}) {
+  console.log(plants);
   return (
     <div className={styles.container}>
       <Head>
@@ -11,7 +40,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main className='container mx-auto'>
+        <section className='grid grid-cols-12 gap-4'>
+          {plants.map((plant, index) => (
+            <PlantCard key={index} slug={plant.slug} thumbnail={plant.thumbnail} title={plant.title} price={plant.price} amount={plant.amount} />
+          ))}
+        </section>
       </main>
 
       <footer className={styles.footer}>
