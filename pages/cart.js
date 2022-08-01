@@ -40,15 +40,19 @@ export default function Cart()
             <main className='container mx-auto pt-8'>
                <h1 className='text-[2rem] font-bold font-secondary mb-2'>Cart</h1>
                <div className='flex flex-col justify-start items-start w-full'>
-                  {cart.map((item, index) => (
-                     <div key={index} className='flex space-x-2 even:bg-black/5 w-full rounded py-2 px-1'>
-                        <button onClick={() => removeFromCart(item.slug)}>❌</button>
-                        <div className='flex justify-between items-center w-full'>
-                        <p className='font-bold'>{item.title}</p>
-                        <p className='font-bold'>€{item.price}</p>
-                        </div>
-                     </div>
-                  ))}
+                  {cart && (
+                     <>
+                        {cart.map((item, index) => (
+                           <div key={index} className='flex space-x-2 even:bg-black/5 w-full rounded py-2 px-1'>
+                              <button onClick={() => removeFromCart(item.slug)}>❌</button>
+                              <div className='flex justify-between items-center w-full'>
+                              <p className='font-bold'>{item.title}</p>
+                              <p className='font-bold'>€{item.price}</p>
+                              </div>
+                           </div>
+                        ))}
+                     </>
+                  )}
                </div>
                <div className='flex justify-between items-center w-full px-1 py-2 border-t-2 border-black/10 mt-2'>
                   <p className='font-bold'>Totaal</p>
