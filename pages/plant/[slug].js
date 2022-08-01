@@ -90,7 +90,10 @@ export async function getStaticProps(context) {
       return (
       <>
          <Head>
-            <title>{plant.title}</title>
+            <title>{plant.title} - Seedling</title>
+            <meta name="description" content={plant.description} />
+            <meta property="og:title" content={plant.title} />
+            <meta property="og:description" content={plant.description} />
          </Head>
 
          <Header link={plant.title} />
