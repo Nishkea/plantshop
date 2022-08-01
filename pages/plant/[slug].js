@@ -1,5 +1,12 @@
 import React from 'react'
+import Image from 'next/image'
+import Head from 'next/head'
 import { GraphQLClient, gql } from 'graphql-request'
+import { Scrollbar, Autoplay  } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/scrollbar';
+import 'swiper/css/autoplay';
 
 const client = new GraphQLClient('https://directus.shoto.studio/graphql');
 
@@ -54,9 +61,44 @@ export async function getStaticProps(context) {
  export default function Plant({plant}) {
    console.log(plant);
    return (
+      <>
+      <Head>
+         <title>{plant.title}</title>
+      </Head>
       <section className='container mx-auto'>
          <h1 className='text-2xl font-bold'>{plant.title}</h1>
          <p>{plant.description}</p>
+
+         {plant.gallery.length > 0 && (
+            <>
+               <p>Get inspired:</p>
+               <div className='hover:cursor-grab'>
+                  <Swiper
+                     modules={[Scrollbar, Autoplay]}
+                     spaceBetween={20}
+                     slidesPerView={1.2}
+                     speed={1000}
+                     autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false,
+                     }}
+                     scrollbar={{ draggable: true }}
+                  >
+                     {plant.gallery.map((image, index) => (
+                        <SwiperSlide  key={index}>
+                           <div className='col-span-4 h-[30rem] relative'>
+                              <Image priority placeholder="blur" blurDataURL={`https://directus.shoto.studio/assets/` + image.directus_files_id.id + `?fit=cover&width=200&height=200&q=40&format=webp`} alt={image.directus_files_id.title} layout='fill' objectFit='cover' src={`https://directus.shoto.studio/assets/` + image.directus_files_id.id + `?fit=cover&width=900&height=900&q=90&format=webp`} />
+                           </div>
+                        </SwiperSlide>
+                     ))}
+                  </Swiper>
+               </div>
+            </>
+         )}
+
       </section>
+      </>
    )
  }
+
+ 
