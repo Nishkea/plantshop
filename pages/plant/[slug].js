@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Head from 'next/head'
+import Header from '../../components/Header'
 import { GraphQLClient, gql } from 'graphql-request'
 import { Scrollbar, Autoplay  } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -62,42 +63,53 @@ export async function getStaticProps(context) {
    console.log(plant);
    return (
       <>
-      <Head>
-         <title>{plant.title}</title>
-      </Head>
-      <div className='container mx-auto'>
-         <h1 className='text-[2rem] font-bold font-secondary'>{plant.title}</h1>
-         <p className='font-primary font-medium leading-6'>{plant.description}</p>
-
-         {plant.gallery.length > 0 && (
-            <section role='gallery' className='mt-5'>
-               <h3 className='font-secondary text-[1.5rem] font-bold'>Get inspired:</h3>
-               <p className='font-primary font-medium'>De {plant.title} in actie</p>
-               <div className='hover:cursor-grab'>
-                  <Swiper
-                     modules={[Scrollbar, Autoplay]}
-                     spaceBetween={20}
-                     slidesPerView={1.2}
-                     speed={1000}
-                     autoplay={{
-                        delay: 3000,
-                        disableOnInteraction: false,
-                     }}
-                     scrollbar={{ draggable: true }}
-                  >
-                     {plant.gallery.map((image, index) => (
-                        <SwiperSlide  key={index}>
-                           <div className='col-span-4 h-[30rem] relative'>
-                              <Image priority placeholder="blur" blurDataURL={`https://directus.shoto.studio/assets/` + image.directus_files_id.id + `?fit=cover&width=200&height=200&q=40&format=webp`} alt={image.directus_files_id.title} layout='fill' objectFit='cover' src={`https://directus.shoto.studio/assets/` + image.directus_files_id.id + `?fit=cover&width=900&height=900&q=90&format=webp`} />
-                           </div>
-                        </SwiperSlide>
-                     ))}
-                  </Swiper>
+         <Head>
+            <title>{plant.title}</title>
+         </Head>
+         <Header link={plant.title} />
+         <div className='container py-10 mx-auto flex flex-col space-y-24'>
+            <section role='info' className='grid grid-cols-12 gap-10 font-primary '>
+               <div className='col-span-12 md:col-span-6 relative rounded h-[20rem] md:h-[30rem] overflow-hidden'>
+                  <Image priority placeholder="blur" blurDataURL={`https://directus.shoto.studio/assets/` + plant.thumbnail.id + `?fit=cover&width=200&height=200&q=40&format=webp`} alt={plant.thumbnail.title} layout='fill' objectFit='cover' src={`https://directus.shoto.studio/assets/` + plant.thumbnail.id + `?fit=cover&width=900&height=900&q=90&format=webp`} />
+               </div>
+               <div className='col-span-12 md:col-span-6 flex flex-col justify-start items-start'>
+                  <h1 className='text-[2rem] font-bold font-secondary'>{plant.title}</h1>
+                  <p className={`text-sm font-medium py-1 px-2 rounded font-primary ${plant.amount > 0 ? ' bg-green-600 text-white' : ' bg-red-800 text-red-300'}`}>{plant.amount > 0 ? 'Op voorraad' : 'Niet op voorraad'}</p>
+                  <p className='text-3xl mt-4'>€{plant.price}</p>
+                  <div className='flex flex-col mt-8'>
+                     <p className='font-bold text-lg'>Meer over {plant.title}</p>
+                     <p className='leading-6'>{plant.description}</p>
+                  </div>
                </div>
             </section>
-         )}
-
-      </div>
+            {plant.gallery.length > 0 && (
+               <section role='gallery' className='mt-5'>
+                  <h3 className='font-secondary text-[1.5rem] font-bold'>Get inspired.</h3>
+                  <p className='font-primary font-medium text-[1.2rem] mb-10'>De {plant.title} in actie</p>
+                  <div className='hover:cursor-grab'>
+                     <Swiper
+                        modules={[Scrollbar, Autoplay]}
+                        spaceBetween={20}
+                        slidesPerView={1.2}
+                        speed={1000}
+                        autoplay={{
+                           delay: 3000,
+                           disableOnInteraction: false,
+                        }}
+                        scrollbar={{ draggable: true }}
+                     >
+                        {plant.gallery.map((image, index) => (
+                           <SwiperSlide  key={index}>
+                              <div className='col-span-4 h-[30rem] relative'>
+                                 <Image priority placeholder="blur" blurDataURL={`https://directus.shoto.studio/assets/` + image.directus_files_id.id + `?fit=cover&width=200&height=200&q=40&format=webp`} alt={image.directus_files_id.title} layout='fill' objectFit='cover' src={`https://directus.shoto.studio/assets/` + image.directus_files_id.id + `?fit=cover&width=900&height=900&q=90&format=webp`} />
+                              </div>
+                           </SwiperSlide>
+                        ))}
+                     </Swiper>
+                  </div>
+               </section>
+            )}
+         </div>
       </>
    )
  }
