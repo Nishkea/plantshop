@@ -40,7 +40,7 @@ export default function Home({plants}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className='container mx-auto py-10'>
+      <main className='container mx-auto py-10 px-2 md:px-0'>
         <section className='grid grid-cols-12 gap-4'>
           {plants.map((plant, index) => (
             <PlantCard key={index} slug={plant.slug} thumbnail={plant.thumbnail} title={plant.title} price={plant.price} amount={plant.amount} />
