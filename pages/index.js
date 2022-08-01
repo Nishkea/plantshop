@@ -31,7 +31,6 @@ export async function getStaticProps() {
 }
 
 export default function Home({plants}) {
-  console.log(plants);
   return (
     <div>
       <Head>
