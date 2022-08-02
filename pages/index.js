@@ -73,7 +73,7 @@ export default function Home({plants, home}) {
       <main className='container mx-auto py-10 px-2 md:px-0'>
 
         <section className='flex p-10 justify-center items-center text-white font-primary w-full h-[20rem] bg-black rounded mb-24 relative overflow-hidden'>
-          <div className='z-10 flex flex-col -space-y-1 items-center justify-center'>
+          <div className='z-10 flex flex-col -space-y-1 items-center justify-center text-center'>
             <h1 className='z-10 font-secondary text-[2rem] font-bold'>{home.title}</h1>
             <p className='z-10 font-primary text-[1.5rem] font-regular'>{home.subtitle}</p>
           </div>
@@ -94,7 +94,7 @@ export default function Home({plants, home}) {
 
         <section className='container mx-auto grid grid-cols-12 mt-24 gap-4'>
           <div className='col-span-12 md:col-span-6 relative flex items-center justify-center p-32 rounded overflow-hidden'>
-            <div className='z-10 flex flex-col justify-center items-center text-white font-primary'>
+            <div className='z-10 flex flex-col justify-center items-center text-white font-primary text-center'>
               <h3 className='font-secondary text-[1.5rem] font-bold'>{home.about_title}</h3>
               <p className='font-primary font-medium text-[1.2rem] text-center'>{home.about_subtitle}</p>
             </div>
@@ -104,7 +104,7 @@ export default function Home({plants, home}) {
           </div>
 
           <div className='col-span-12 md:col-span-6 relative flex items-center justify-center p-32 rounded overflow-hidden'>
-            <div className='z-10 flex flex-col justify-center items-center text-white font-primary'>
+            <div className='z-10 flex flex-col justify-center items-center text-white font-primary text-center'>
               <h3 className='font-secondary text-[1.5rem] font-bold'>{home.featured_title}</h3>
               <p className='font-primary font-medium text-[1.2rem]'>{home.featured_subtitle}</p>
             </div>
