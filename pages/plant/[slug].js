@@ -63,11 +63,11 @@ export async function getStaticProps(context) {
  export default function Plant({plant}) {
    const [message, setMessage] = useState(null);
    // eslint-disable-next-line react-hooks/exhaustive-deps
-   // const cartItem = {
-   //    slug: plant.slug,
-   //    title: plant.title,
-   //    price: plant.price,
-   // }
+   const cartItem = {
+      slug: plant.slug,
+      title: plant.title,
+      price: plant.price,
+   }
    
    const addToCart = async () => {
       const cartId = localStorage.getItem('cartId');
@@ -75,31 +75,32 @@ export async function getStaticProps(context) {
       if (!cartId) {
          const QUERY = gql`
             mutation {
-               create_cart_item {
+               create_cart_item(data: 
+                  {
+                     items: "{name : ${cartItem.title}, slug: ${cartItem.slug}, price: ${cartItem.price}}"
+                  }) {
                   id
                }
             }
          `;
          const cart = await client.request(QUERY);
-         localStorage.setItem('cartId', cart.create_cart.id);
-      }
-      // Get cart ID from localstorage
-      // Add item to cart
-      const QUERY = gql`
-
+         localStorage.setItem('cartId', cart.create_cart_item.id);
+      } else {
+         const QUERY = gql`
          mutation {
-            add_item_to_cart(id: "${cartId}", items: {
-               slug: "${plant.slug}",
-               title: "${plant.title}",
-               price: "${plant.price}",
-            }) {
+            update_cart_item(id: "${cartId}", data: 
+               {
+                  items:  "{name : ${cartItem.title}, slug: ${cartItem.slug}, price: ${cartItem.price}}"
+               })
+               {
                id
                items
             }
          }
       `;
       const cart = await client.request(QUERY);
-      console.log(cart);
+      }
+  
       setMessage('Plant toegevoegd aan winkelwagen.');
    }
 
