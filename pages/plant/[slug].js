@@ -63,27 +63,44 @@ export async function getStaticProps(context) {
  export default function Plant({plant}) {
    const [message, setMessage] = useState(null);
    // eslint-disable-next-line react-hooks/exhaustive-deps
-   const cartItem = {
-      slug: plant.slug,
-      title: plant.title,
-      price: plant.price,
-   }
-   const addToCart = () => {
-      if (localStorage.getItem('cart')) {
-         const cart = JSON.parse(localStorage.getItem('cart'));
-         if (cart.some(item => item.slug === plant.slug)) {
-            setMessage('Plant zit al in winkelwagen');
-         } else {
-            cart.push(cartItem);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            setMessage('Plant toegevoegd aan winkelwagen.');
-         }
-      } else {
-         const cart = [];
-         cart.push(cartItem);
-         localStorage.setItem('cart', JSON.stringify(cart));
-         setMessage('Plant toegevoegd aan winkelwagen.');
+   // const cartItem = {
+   //    slug: plant.slug,
+   //    title: plant.title,
+   //    price: plant.price,
+   // }
+   
+   const addToCart = async () => {
+      const cartId = localStorage.getItem('cartId');
+      // If cart ID is not set, create a new cart
+      if (!cartId) {
+         const QUERY = gql`
+            mutation {
+               create_cart_item {
+                  id
+               }
+            }
+         `;
+         const cart = await client.request(QUERY);
+         localStorage.setItem('cartId', cart.create_cart.id);
       }
+      // Get cart ID from localstorage
+      // Add item to cart
+      const QUERY = gql`
+
+         mutation {
+            add_item_to_cart(id: "${cartId}", items: {
+               slug: "${plant.slug}",
+               title: "${plant.title}",
+               price: "${plant.price}",
+            }) {
+               id
+               items
+            }
+         }
+      `;
+      const cart = await client.request(QUERY);
+      console.log(cart);
+      setMessage('Plant toegevoegd aan winkelwagen.');
    }
 
 
